@@ -6,15 +6,17 @@ Created on Sun Apr 10 12:15:01 2022
 """
 import littleLogging as logging
 
-# ============Change saih format===========================
+# ============ Change saih format ===========================
 org = r'H:\LSGB\20220324_informe_pz\data_chs\saih'
 dst = r'H:\LSGB\20220324_informe_pz\data_chs\saih\newfmt\data.csv'
 header = ("id","fecha","ppmm")
 
-# ============Write events only============================
+# ============ Write events only ============================
 org = r'H:\LSGB\20220324_informe_pz\data_chs\saih\newfmt\data.csv'
 dst = r'H:\LSGB\20220324_informe_pz\data_chs\saih\newfmt\data_events.csv'
 
+# ============ Actions to be executed ========================
+write_new_fmt = False
 write_events = True
 
 if __name__ == "__main__":
@@ -27,13 +29,14 @@ if __name__ == "__main__":
 
         startTime = time()
 
-        files = nf.files(org)
-        print('Files in org')
-        for f in files:
-            print(f)
-        ask = input('Continue? y/n: ')
-        if ask.lower() == 'y':
-            files = nf.write_newfmt(files, header, dst)
+        if write_new_fmt:
+            files = nf.files(org)
+            print('Files in org')
+            for f in files:
+                print(f)
+            ask = input('Continue? y/n: ')
+            if ask.lower() == 'y':
+                files = nf.write_newfmt(files, header, dst)
 
         if write_events:
             nf.events(org, dst)

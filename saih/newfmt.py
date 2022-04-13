@@ -104,6 +104,28 @@ def events(org, dst, delimiter=','):
     def pp_get(row):
         return float(row[2])
 
+    def dif_time_get(datet2, datet1, step='day', sep='-'):
+        """
+        Calculates the difference in step unit between datet2 and datet1
+
+        Parameters
+        ----------
+        row : list[str]
+            current row date with fmt yyyy-mm-dd
+        row_end_event : list[str]
+            row last event
+        step : str
+            date or timestamp difference between consecutive rows
+        sep : str
+            day, mont, year separator
+
+        Returns
+        -------
+        None.
+
+        """
+
+
 
     if isfile(dst):
         ask = input('The output file already exists, continue? y/n: ')
@@ -125,17 +147,20 @@ def events(org, dst, delimiter=','):
                     in_event = True
                 else:
                     in_event = False
+                    zero_end = row[1]
             else:
                 xpp = pp_get(row)
                 if in_event == True:
                     writer.writerow(row)
                     if xpp <= 0.:
                         in_event = False
+                        zero_end = row[1]
                 else:
                     if xpp > 0.:
                         if in_event == False:
                             in_event = True
-                            writer.writerow(prev_row)
+                            if zero_end != prev_row[1]:
+                                writer.writerow(prev_row)
                         writer.writerow(row)
                     else:
                         if in_event == True:
@@ -144,6 +169,6 @@ def events(org, dst, delimiter=','):
                 prev_row = list(row)
 
         if in_event == False:
-            writer.writerow(prev_row)
+            writer.writerow(row)
 
 
