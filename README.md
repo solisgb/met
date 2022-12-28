@@ -1,2 +1,2 @@
 # met
-Some scripts with meteorological data
+Some scripts related to meteorological data management
